@@ -9,7 +9,13 @@ const app = express();
 dotenv.config({ path: "./backend/.env" });
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true,
+  }),
+);
 const port = process.env.PORT || 3001;
 connectToDB()
   .then(() => {

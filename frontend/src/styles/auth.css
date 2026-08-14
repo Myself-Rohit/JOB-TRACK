@@ -1,0 +1,108 @@
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: url("https://img.magnific.com/premium-photo/close-up-male-hand-pointing-tablet-with-job-search-bar-blue-background-search-browser-bar-with-magnifying-glass-searching-available-hiring-position_670147-22261.jpg?semt=ais_test_b&w=740&q=80")
+    no-repeat;
+  background-size: cover;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  min-width: 80%;
+  background: rgb(255 255 255 / 3%);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.4px);
+  -webkit-backdrop-filter: blur(4.4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.form > h1 {
+  text-align: center;
+  color: green;
+}
+.form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.pass-div {
+  position: relative;
+}
+label {
+  font-family: cursive;
+}
+
+input {
+  font-size: medium;
+  padding: 5px 7px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  color: #0c0a09;
+  background-color: rgb(237, 238, 237);
+  box-shadow:
+    2px 2px 5px rgb(168, 173, 166),
+    -1px -1px 6px rgba(245, 245, 245, 0.4);
+  width: 100%;
+  &:focus {
+    border: 2px solid transparent;
+    box-shadow:
+      3px 3px 10px rgb(7, 66, 2),
+      -1px -1px 6px rgba(41, 245, 0, 0.4),
+      inset 3px 3px 10px rgb(9, 66, 2),
+      inset -1px -1px 6px rgba(0, 245, 12, 0.4);
+  }
+}
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  color: #0c0a09;
+  cursor: pointer;
+}
+.toggle-password > img {
+  width: 20px;
+}
+
+p {
+  text-align: center;
+  margin: 5px;
+}
+.navigate {
+  color: rgb(153, 0, 255);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.auth-button {
+  background: transparent;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #12d22980;
+  font-size: large;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 2px;
+  &:hover {
+    background-color: #12d22980;
+    color: azure;
+  }
+}
+.error {
+  color: rgb(175, 34, 34);
+  background: rgb(228, 142, 142);
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+
+@media (min-width: 600px) {
+  .form {
+    min-width: 520px;
+  }
+}
