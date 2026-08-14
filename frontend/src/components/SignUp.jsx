@@ -32,6 +32,7 @@ function SignUp() {
         <div>
           <label htmlFor="userName">User Name:</label>
           <input
+            className="inp"
             onChange={(e) => handleChange(e)}
             name="userName"
             placeholder="User Name"
@@ -41,6 +42,7 @@ function SignUp() {
         <div>
           <label htmlFor="email">Email:</label>
           <input
+            className="inp"
             onChange={(e) => handleChange(e)}
             name="email"
             placeholder="example@gmail.com"
@@ -51,6 +53,7 @@ function SignUp() {
           <label htmlFor="password">Password:</label>
           <div className="pass-div">
             <input
+              className="inp"
               onChange={(e) => handleChange(e)}
               name="password"
               placeholder="password"

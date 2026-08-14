@@ -38,7 +38,7 @@ label {
   font-family: cursive;
 }
 
-input {
+.inp {
   font-size: medium;
   padding: 5px 7px;
   border-radius: 5px;

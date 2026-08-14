@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectToDB from "./config/connectToDB.js";
 import authRoute from "./routes/auth.routes.js";
+import applicationRoute from "./routes/application.routes.js";
 
 const app = express();
 dotenv.config({ path: "./backend/.env" });
@@ -26,3 +27,4 @@ connectToDB()
   })
   .catch((err) => console.log(`Error connecting MongoDB: ${err.message}`));
 app.use("/api/auth", authRoute);
+app.use("/api/application", applicationRoute);

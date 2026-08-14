@@ -36,6 +36,7 @@ function SignIn() {
         <div>
           <label htmlFor="email">Email:</label>
           <input
+            className="inp"
             name="email"
             placeholder="example@gmail.com"
             type="email"
@@ -46,6 +47,7 @@ function SignIn() {
           <label htmlFor="password">Password:</label>
           <div className="pass-div">
             <input
+              className="inp"
               name="password"
               placeholder="password"
               type={showPassword ? "text" : "password"}
