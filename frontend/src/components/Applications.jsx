@@ -43,19 +43,32 @@ const companyColors = [
 function Applications() {
   const [search, setSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
-  const [sort, setSort] = useState("newest");
-  const [showFavorites, setShowFavorites] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
   const [isFavorite, setisFavorite] = useState(false);
-  const [openMenu, setOpenMenu] = useState(null);
   const { loding, applications, setApplications } = useGetAllApplications();
   const { updateApplication } = useUpdateApplication();
+
   useEffect(() => {
     setApplications(applications);
+    if (applications) setFilteredData(applications);
   }, [applications]);
 
-  if (loding) return null;
+  const lengthCount = {
+    Saved: applications?.filter((app) => app.status === "Saved").length || 0,
+    Applied:
+      applications?.filter((app) => app.status === "Applied").length || 0,
+    Interviewing:
+      applications?.filter((app) => app.status === "Interviewing").length || 0,
+    Offer: applications?.filter((app) => app.status === "Offer").length || 0,
+    Rejected:
+      applications?.filter((app) => app.status === "Rejected").length || 0,
+    Withdrawn:
+      applications?.filter((app) => app.status === "Withdrawn").length || 0,
+  };
   const handleChange = async (e, idx, fav = false) => {
     let updatedApplication = {};
+    console.log("name:", e.target.name);
+    console.log("val:", e.target.value);
     if (fav) {
       updatedApplication = {
         ...applications[idx],
@@ -72,7 +85,23 @@ function Applications() {
         index === idx ? updatedApplication : application,
       ),
     );
-    await updateApplication(updatedApplication);
+    const result = await updateApplication(updatedApplication);
+  };
+
+  const handleStatusFilter = (status) => {
+    setFilteredData(applications.filter((app) => app.status === status));
+  };
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setFilteredData(
+      applications.filter(
+        (app) =>
+          app.company.toLowerCase().includes(e.target.value.trim()) ||
+          app.role.toLowerCase().includes(e.target.value.trim()) ||
+          app.location.toLowerCase().includes(e.target.value.trim()),
+      ),
+    );
   };
 
   const formatDate = (date) => {
@@ -84,13 +113,14 @@ function Applications() {
       year: "numeric",
     });
   };
+  if (loding) return null;
 
   return (
-    <div className="min-h-screen bg-[#080b14] text-white grow">
+    <div className="min-h-screen bg-[#080b14] text-white max-w-[calc(100vw-68px)] overflow-hidden grow">
       <main className=" min-h-screen px-6 py-8 ">
         <div className="mx-auto">
           {/* Header */}
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
                 Applications
@@ -111,93 +141,123 @@ function Applications() {
           </div>
         </div>
         {/* Filters */}
-        <div className="w-[calc(100%-68px)] flex flex-col md:flex-row gap-4 mt-10">
-          <div className="w-1/2 relative">
+        <div className=" flex flex-col md:flex-row justify-between gap-4 mt-10">
+          <div className="w-2/3 relative ">
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
 
             <input
               type="text"
               placeholder="Search company, role or location..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleSearchChange(e)}
               className="min-w-full rounded-xl border border-white/[0.07] bg-[#1d1f246f] py-3 pl-11 pr-4 text-sm text-white outline-none placeholder:text-slate-600 focus:border-indigo-500"
             />
           </div>
 
-          <div className="py-3 px-4 w-32 flex gap-2 rounded-xl border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
+          <div
+            className="py-2 px-4 w-32 flex gap-2 rounded-xl border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() =>
+              setFilteredData(
+                applications.filter((app) => app.isFavorite === true),
+              )
+            }
+          >
             <Star className="w-4" />
             Favorites
           </div>
         </div>
         <div className="flex items-center flex-wrap  gap-2  mt-4 w-full">
-          <div className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
+          <div
+            className="px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() => setFilteredData(applications)}
+          >
             All<span className="mb-2">.</span>
-            {12}
+            {applications && applications.length}
           </div>
-          <div className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
-            Saved <span className="mb-2">.</span> {1}
+
+          <div
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() => handleStatusFilter("Saved")}
+          >
+            Saved <span className="mb-2">.</span> {lengthCount.Saved}
           </div>
-          <div className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
-            Applied <span className="mb-2">.</span> {4}
+          <div
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() => handleStatusFilter("Applied")}
+          >
+            Applied <span className="mb-2">.</span> {lengthCount.Applied}
           </div>
-          <div className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
-            Interviewing <span className="mb-2">.</span> {2}
+          <div
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() => handleStatusFilter("Interviewing")}
+          >
+            Interviewing <span className="mb-2">.</span>{" "}
+            {lengthCount.Interviewing}
           </div>
-          <div className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
-            Offer <span className="mb-2">.</span> {2}
+          <div
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() => handleStatusFilter("Offer")}
+          >
+            Offer <span className="mb-2">.</span> {lengthCount.Offer}
           </div>
-          <div className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
-            Rejected <span className="mb-2">.</span> {2}
+          <div
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() => handleStatusFilter("Rejected")}
+          >
+            Rejected <span className="mb-2">.</span> {lengthCount.Rejected}
           </div>
-          <div className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400">
-            Withdrawn <span className="mb-2">.</span> {1}
+          <div
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            onClick={() => handleStatusFilter("Withdrawn")}
+          >
+            Withdrawn <span className="mb-2">.</span> {lengthCount.Withdrawn}
           </div>
         </div>
 
-        <div className="mt-4 space-y-3">
-          <div className="w-full  h-1/2 overflow-scroll rounded-3xl border border-white/[0.08] bg-[#0b0f1a]">
-            <table className="w-full border-collapse">
+        <div className="mt-4 space-y-3 w-full min-w-0">
+          <div className="w-full max-w-full overflow-x-auto overflow-y-hidden rounded-3xl border border-white/[0.08] bg-[#0b0f1a]">
+            <table className="w-full min-w-[1000px] border-collapse">
               <thead>
-                <tr className="border-b border-white/[0.07]">
-                  <th className="px-5 py-6 text-left text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">
+                <tr className="border-b border-white/[0.07] text-sm ">
+                  <th className="pl-10 py-6 text-left text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
                     Application
                   </th>
 
-                  <th className="px-5 py-6 text-left text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">
+                  <th className="px-5 py-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
                     Status
                   </th>
 
-                  <th className="px-5 py-6 text-left text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">
+                  <th className="pl-10 py-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
                     Applied
                   </th>
 
-                  <th className="px-5 py-6 text-right text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">
+                  <th className="pr-10 py-6 text-right text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {applications?.length &&
-                  applications.map((application, index) => (
+                {filteredData &&
+                  filteredData.map((application, index) => (
                     <tr
                       key={application._id}
-                      className="border-b border-white/[0.06] last:border-b-0 hover:bg-white/[0.02]"
+                      className="border-b border-white/[0.06] last:border-b-0 hover:bg-white/[0.02] "
                     >
                       {/* Application */}
-                      <td className="px-5 py-7">
-                        <span className="flex items-center gap-6 text-sm">
+                      <td className=" px-4">
+                        <span className="flex items-center gap-6 text-xs ">
                           <span
-                            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${application.color} text-lg font-semibold text-white`}
+                            className={`flex h-14 w-14  items-center justify-center rounded-xl ${application.color} text-sm font-semibold text-white`}
                           >
                             {application.company}
                           </span>
 
                           <span>
-                            <p className="text-[17px] font-medium text-slate-100">
+                            <p className="text-sm font-medium text-slate-100 w-48">
                               {application.role}
                             </p>
 
-                            <p className="mt-1 text-[15px] text-slate-500">
+                            <p className="mt-1 text-sm text-slate-500">
                               {application.company}
                               <span className="mx-1">·</span>
                               {application.location}
@@ -206,14 +266,13 @@ function Applications() {
                         </span>
                       </td>
                       {/* Status */}
-                      <td className="px-5 py-7 ">
-                        <span className="relative w-[220px]">
+                      <td className="min-w-40">
+                        <span className="relative ">
                           <select
+                            name="status"
                             value={application.status}
-                            onChange={(e) => {
-                              handleChange(e, index);
-                            }}
-                            className={`w-full text-sm appearance-none rounded-xl border border-white/[0.1] bg-[#111827] px-2 py-2 text-[16px] outline-none ${statusStyles[application.status]}`}
+                            onChange={(e) => handleChange(e, index)}
+                            className={`w-full text-xs appearance-none rounded-xl border border-white/[0.1] bg-[#111827] px-2 py-2 text-[16px] outline-none ${statusStyles[application.status]}`}
                           >
                             <option>Saved</option>
                             <option>Applied</option>
@@ -227,20 +286,20 @@ function Applications() {
                         </span>
                       </td>
                       {/* Applied */}
-                      <td className="px-5 py-7">
-                        <span className="whitespace-pre-line text-[16px] text-slate-400">
+                      <td className="px-5 py-7 min-w-40 text-center ">
+                        <span className="whitespace-pre-line text-sm text-slate-400">
                           {formatDate(application?.appliedDate)}
                         </span>
                       </td>
 
                       {/* Actions */}
-                      <td className="px-5 py-7">
+                      <td className="px-6 py-4">
                         <span
-                          className="flex items-center justify-end gap-7"
+                          className="flex items-center justify-end gap-7 "
                           onClick={(e) => handleChange(e, index, true)}
                         >
                           <Star
-                            className={`h-6 w-6 ${
+                            className={`h-5 w-5  ${
                               application.isFavorite
                                 ? "fill-yellow-400 text-yellow-400"
                                 : "text-slate-500"
@@ -249,18 +308,18 @@ function Applications() {
 
                           {application.jobUrl && (
                             <a href={`${application.jobUrl}`}>
-                              <ExternalLink className="h-6 w-6 text-slate-500" />
+                              <ExternalLink className="h-5 w-5 text-slate-500" />
                             </a>
                           )}
 
-                          <Trash2 className="h-6 w-6 text-slate-500" />
+                          <Trash2 className="h-5 w-5 text-slate-500" />
                         </span>
                       </td>
                     </tr>
                   ))}
               </tbody>
             </table>
-            {!applications?.length && (
+            {filteredData.length == 0 && (
               <div className="mt-4 rounded-2xl border border-dashed border-white/[0.1] bg-[#0d111c] px-6 py-20 text-center">
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-500/10">
                   <Search className="h-6 w-6 text-indigo-300" />

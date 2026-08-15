@@ -7,7 +7,7 @@ function Mainlayout() {
   return (
     <div className="flex w-screen">
       <Sidebar />
-      <Outlet className={"grow px-10"} />
+      <Outlet className={"w-[calc(100vw-68px)] px-10"} />
     </div>
   );
 }
