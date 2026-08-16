@@ -16,6 +16,28 @@ import useCreateApplication from "../hooks/useCreateApplication";
 function NewApplication() {
   const navigate = useNavigate();
   const { createApplication } = useCreateApplication();
+  const colors = [
+    "from-orange-500 to-yellow-500",
+    "from-blue-500 to-cyan-500",
+    "from-purple-500 to-violet-500",
+    "from-indigo-500 to-blue-500",
+    "from-green-500 to-emerald-500",
+    "from-red-500 to-orange-500",
+    "from-pink-500 to-rose-500",
+    "from-fuchsia-500 to-pink-500",
+    "from-cyan-500 to-teal-500",
+    "from-amber-500 to-orange-500",
+    "from-sky-500 to-indigo-500",
+    "from-violet-500 to-fuchsia-500",
+  ];
+  const [isActive, setIsActive] = useState(0);
+  const handleLogo = (idx) => {
+    setIsActive(idx);
+    setFormData((prev) => ({
+      ...prev,
+      color: colors[idx],
+    }));
+  };
   const [formData, setFormData] = useState({
     company: "",
     role: "",
@@ -36,6 +58,7 @@ function NewApplication() {
       type: "Technical",
       notes: "",
     },
+    color: "from-orange-500 to-yellow-500",
   });
 
   const handleChange = (e) => {
@@ -78,6 +101,7 @@ function NewApplication() {
         type: "Technical",
         notes: "",
       },
+      color: "from-orange-500 to-yellow-500",
     });
   };
 
@@ -458,20 +482,44 @@ function NewApplication() {
             </section>
 
             {/* Buttons */}
-            <div className="flex flex-col-reverse justify-end gap-3 border-t border-white/[0.06] pt-6 sm:flex-row">
-              <Link
-                to="/applications"
-                className="rounded-xl  px-6 py-3 text-center text-sm font-medium text-slate-300 transition hover:bg-white/[0.04] hover:text-white"
-              >
-                Cancel
-              </Link>
+            <div className="flex flex-col-reverse items-center justify-between gap-3 border-t border-white/[0.06] pt-6 sm:flex-row">
+              <div className="flex flex-col gap-2">
+                <span className="text-slate-400">Choose Company Logo</span>
+                <div className="flex gap-4 flex-wrap max-w-56">
+                  {colors.map((color, idx) => (
+                    <div
+                      onClick={(e) => {
+                        handleLogo(idx);
+                      }}
+                      key={idx}
+                      name="color"
+                      value={colors[idx]}
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl opacity-10 hover:opacity-100  ${isActive == idx && "opacity-100"} duration-300 bg-gradient-to-br ${colors[idx]} text-xs font-bold text-white cursor-pointer`}
+                    >
+                      {formData?.company
+                        .split(" ")
+                        .map((word) => word[0])
+                        .join("")
+                        .slice(0, 2)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col-reverse justify-end gap-3  sm:flex-row">
+                <Link
+                  to="/applications"
+                  className="rounded-xl  px-6 py-3 text-center text-sm font-medium text-slate-300 transition hover:bg-white/[0.04] hover:text-white"
+                >
+                  Cancel
+                </Link>
 
-              <button
-                type="submit"
-                className="rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-950/40 transition hover:brightness-110"
-              >
-                Add application
-              </button>
+                <button
+                  type="submit"
+                  className="rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-950/40 transition hover:brightness-110"
+                >
+                  Add application
+                </button>
+              </div>
             </div>
           </form>
         </div>

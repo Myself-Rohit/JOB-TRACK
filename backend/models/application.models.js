@@ -83,6 +83,10 @@ const applicationSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    color: {
+      type: String,
+      default: "from-purple-500 to-violet-500",
+    },
   },
   { timestamps: true },
 );

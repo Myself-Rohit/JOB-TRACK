@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import useGetAllApplications from "../hooks/useGetAllApplications";
 import { useEffect } from "react";
 import useUpdateApplication from "../hooks/useUpdateApplication";
+import useRemoveApplication from "../hooks/useRemoveApplication";
 const statusStyles = {
   Saved: "bg-cyan-500/10 text-cyan-300 border-cyan-500/20",
 
@@ -42,12 +43,12 @@ const companyColors = [
 
 function Applications() {
   const [search, setSearch] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("All");
+  // const [selectedStatus, setSelectedStatus] = useState("All");
   const [filteredData, setFilteredData] = useState([]);
   const [isFavorite, setisFavorite] = useState(false);
   const { loding, applications, setApplications } = useGetAllApplications();
   const { updateApplication } = useUpdateApplication();
-
+  const { removeApplication } = useRemoveApplication();
   useEffect(() => {
     setApplications(applications);
     if (applications) setFilteredData(applications);
@@ -67,8 +68,6 @@ function Applications() {
   };
   const handleChange = async (e, idx, fav = false) => {
     let updatedApplication = {};
-    console.log("name:", e.target.name);
-    console.log("val:", e.target.value);
     if (fav) {
       updatedApplication = {
         ...applications[idx],
@@ -102,6 +101,14 @@ function Applications() {
           app.location.toLowerCase().includes(e.target.value.trim()),
       ),
     );
+  };
+
+  const handleRemoveApplication = (id) => {
+    if (removeApplication(id)) {
+      setApplications((prev) =>
+        prev.filter((application) => application._id !== id),
+      );
+    }
   };
 
   const formatDate = (date) => {
@@ -163,7 +170,7 @@ function Applications() {
             }
           >
             <Star className="w-4" />
-            Favorites
+            Favourites
           </div>
         </div>
         <div className="flex items-center flex-wrap  gap-2  mt-4 w-full">
@@ -247,9 +254,13 @@ function Applications() {
                       <td className=" px-4">
                         <span className="flex items-center gap-6 text-xs ">
                           <span
-                            className={`flex h-14 w-14  items-center justify-center rounded-xl ${application.color} text-sm font-semibold text-white`}
+                            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${application.color} text-xs font-bold text-white`}
                           >
-                            {application.company}
+                            {application.company
+                              .split(" ")
+                              .map((word) => word[0])
+                              .join("")
+                              .slice(0, 2)}
                           </span>
 
                           <span>
@@ -294,11 +305,9 @@ function Applications() {
 
                       {/* Actions */}
                       <td className="px-6 py-4">
-                        <span
-                          className="flex items-center justify-end gap-7 "
-                          onClick={(e) => handleChange(e, index, true)}
-                        >
+                        <span className="flex items-center justify-end gap-7 ">
                           <Star
+                            onClick={(e) => handleChange(e, index, true)}
                             className={`h-5 w-5  ${
                               application.isFavorite
                                 ? "fill-yellow-400 text-yellow-400"
@@ -312,7 +321,12 @@ function Applications() {
                             </a>
                           )}
 
-                          <Trash2 className="h-5 w-5 text-slate-500" />
+                          <Trash2
+                            className="h-5 w-5 text-slate-500"
+                            onClick={() =>
+                              handleRemoveApplication(application._id)
+                            }
+                          />
                         </span>
                       </td>
                     </tr>

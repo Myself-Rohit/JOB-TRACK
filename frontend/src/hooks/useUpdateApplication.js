@@ -13,8 +13,6 @@ const useUpdateApplication = () => {
         { ...formData },
         { withCredentials: true },
       );
-
-      console.log("updated application", res.data);
     } catch (err) {
       toast.error(err.message || "Something went wrong");
     } finally {
