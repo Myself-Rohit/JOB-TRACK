@@ -15,7 +15,7 @@ import {
   Clock,
   ChevronDown,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import useGetAllApplications from "../hooks/useGetAllApplications";
 import { useEffect } from "react";
 import useUpdateApplication from "../hooks/useUpdateApplication";
@@ -49,6 +49,7 @@ function Applications() {
   const { loding, applications, setApplications } = useGetAllApplications();
   const { updateApplication } = useUpdateApplication();
   const { removeApplication } = useRemoveApplication();
+  let navigate = useNavigate();
   useEffect(() => {
     setApplications(applications);
     if (applications) setFilteredData(applications);
@@ -251,7 +252,10 @@ function Applications() {
                       className="border-b border-white/[0.06] last:border-b-0 hover:bg-white/[0.02] "
                     >
                       {/* Application */}
-                      <td className=" px-4">
+                      <td
+                        className=" px-4 cursor-pointer"
+                        onClick={() => navigate(`/details/${application?._id}`)}
+                      >
                         <span className="flex items-center gap-6 text-xs ">
                           <span
                             className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${application.color} text-xs font-bold text-white`}

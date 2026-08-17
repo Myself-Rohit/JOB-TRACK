@@ -63,6 +63,16 @@ export const getApplications = async (req, res) => {
     res.status(400).send("ERROR : " + error?.message);
   }
 };
+export const getApplicationById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!req.user?._id) throw new Error("Authentication required, Try Login!");
+    const application = await Application.findById(id);
+    res.status(200).json({ message: "", data: application });
+  } catch (error) {
+    res.status(400).send("ERROR : " + error?.message);
+  }
+};
 
 export const updateApplicationById = async (req, res) => {
   try {
