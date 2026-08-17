@@ -11,20 +11,20 @@ import { ToastContainer } from "react-toastify";
 import Applications from "./components/Applications.jsx";
 import ApplicationDetails from "./components/ApplicationDetail.jsx";
 import Profile from "./components/Profile.jsx";
+import EditApplication from "./components/EditApplication.jsx";
 
 function App() {
   const { authUser } = useAuthContext();
-
   return (
     <div className="root">
       <Routes>
         <Route path="/" element={authUser ? <Mainlayout /> : <SignIn />}>
-          <Route path="/" element={<NewApplication />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/new" element={<NewApplication />} />
           <Route path="/details/:id" element={<ApplicationDetails />} />
+          <Route path="/edit/:id" element={<EditApplication />} />
         </Route>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />

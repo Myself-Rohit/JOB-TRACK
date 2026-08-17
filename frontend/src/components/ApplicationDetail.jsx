@@ -170,7 +170,7 @@ function ApplicationDetails() {
               </button>
 
               <Link
-                to={`/applications/${application._id}/edit`}
+                to={`/edit/${application._id}`}
                 className="flex h-10 items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-white"
               >
                 <Pencil className="h-4 w-4" />
@@ -430,7 +430,7 @@ function ApplicationDetails() {
               </a>
 
               <Link
-                to={`/applications/${application._id}/edit`}
+                to={`/edit/${application._id}`}
                 className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-slate-400 transition hover:bg-white/[0.05] hover:text-white"
               >
                 <Pencil className="h-4 w-4" />

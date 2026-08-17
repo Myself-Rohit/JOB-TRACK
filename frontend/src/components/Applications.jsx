@@ -158,25 +158,25 @@ function Applications() {
               placeholder="Search company, role or location..."
               value={search}
               onChange={(e) => handleSearchChange(e)}
-              className="min-w-full rounded-xl border border-white/[0.07] bg-[#1d1f246f] py-3 pl-11 pr-4 text-sm text-white outline-none placeholder:text-slate-600 focus:border-indigo-500"
+              className="min-w-full rounded-xl border border-white/[0.07] bg-[#0b0f1a] py-3 pl-11 pr-4 text-sm text-white outline-none placeholder:text-slate-600 focus:border-indigo-500"
             />
           </div>
 
           <div
-            className="py-2 px-4 w-32 flex gap-2 rounded-xl border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className="py-2 px-4 w-32 flex items-center gap-2 rounded-xl border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400"
             onClick={() =>
               setFilteredData(
                 applications.filter((app) => app.isFavorite === true),
               )
             }
           >
-            <Star className="w-4" />
-            Favourites
+            <Star className="w-5 h-5" />
+            <span> Favourites</span>
           </div>
         </div>
         <div className="flex items-center flex-wrap  gap-2  mt-4 w-full">
           <div
-            className="px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className="px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400 cursor-pointer"
             onClick={() => setFilteredData(applications)}
           >
             All<span className="mb-2">.</span>
@@ -184,38 +184,38 @@ function Applications() {
           </div>
 
           <div
-            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400 cursor-pointer "
             onClick={() => handleStatusFilter("Saved")}
           >
             Saved <span className="mb-2">.</span> {lengthCount.Saved}
           </div>
           <div
-            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400 cursor-pointer "
             onClick={() => handleStatusFilter("Applied")}
           >
             Applied <span className="mb-2">.</span> {lengthCount.Applied}
           </div>
           <div
-            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400 cursor-pointer "
             onClick={() => handleStatusFilter("Interviewing")}
           >
             Interviewing <span className="mb-2">.</span>{" "}
             {lengthCount.Interviewing}
           </div>
           <div
-            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400 cursor-pointer "
             onClick={() => handleStatusFilter("Offer")}
           >
             Offer <span className="mb-2">.</span> {lengthCount.Offer}
           </div>
           <div
-            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400 cursor-pointer "
             onClick={() => handleStatusFilter("Rejected")}
           >
             Rejected <span className="mb-2">.</span> {lengthCount.Rejected}
           </div>
           <div
-            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#1d1f246f] text-slate-500 hover:text-slate-400"
+            className=" px-2 flex items-center gap-1 rounded-full text-sm border border-white/[0.07] bg-[#0b0f1a] text-slate-500 hover:text-slate-400 cursor-pointer "
             onClick={() => handleStatusFilter("Withdrawn")}
           >
             Withdrawn <span className="mb-2">.</span> {lengthCount.Withdrawn}
@@ -312,7 +312,7 @@ function Applications() {
                         <span className="flex items-center justify-end gap-7 ">
                           <Star
                             onClick={(e) => handleChange(e, index, true)}
-                            className={`h-5 w-5  ${
+                            className={`h-5 w-5 cursor-pointer ${
                               application.isFavorite
                                 ? "fill-yellow-400 text-yellow-400"
                                 : "text-slate-500"
@@ -321,12 +321,12 @@ function Applications() {
 
                           {application.jobUrl && (
                             <a href={`${application.jobUrl}`}>
-                              <ExternalLink className="h-5 w-5 text-slate-500" />
+                              <ExternalLink className="h-5 w-5 text-slate-500 cursor-pointer" />
                             </a>
                           )}
 
                           <Trash2
-                            className="h-5 w-5 text-slate-500"
+                            className="h-5 w-5 text-slate-500 cursor-pointer"
                             onClick={() =>
                               handleRemoveApplication(application._id)
                             }

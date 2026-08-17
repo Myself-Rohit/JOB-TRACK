@@ -11,7 +11,7 @@ import useLogut from "../hooks/useLogout.js";
 
 const NAV = [
   {
-    to: "/dashboard",
+    to: "/",
     label: "Dashboard",
     icon: LayoutDashboard,
   },
@@ -28,7 +28,7 @@ function Sidebar() {
   return (
     <div className="sticky top-0 flex h-screen w-[68px] shrink-0 flex-col border-r border-white/[0.06] bg-[#0a0f1d] px-3 py-6 md:w-60 md:px-4">
       {/* Logo */}
-      <Link to="/dashboard" className="flex items-center gap-3 px-1 md:px-2">
+      <Link to="/" className="flex items-center gap-3 px-1 md:px-2">
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-950/50">
           <BriefcaseBusiness className="h-5 w-5 text-white" />
         </span>
