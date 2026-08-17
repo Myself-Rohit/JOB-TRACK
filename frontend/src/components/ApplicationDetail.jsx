@@ -24,7 +24,7 @@ import useRemoveApplication from "../hooks/useRemoveApplication.js";
 function ApplicationDetails() {
   const { id } = useParams();
   let navigate = useNavigate();
-  const { application, setApplication } = useGetApplication(id);
+  const { loading, application, setApplication } = useGetApplication(id);
   const { updateApplication } = useUpdateApplication();
   const { removeApplication } = useRemoveApplication();
   const handleFavourite = async () => {
@@ -34,7 +34,6 @@ function ApplicationDetails() {
     };
 
     const result = await updateApplication(updatedApplication);
-    console.log(result);
     setApplication(updatedApplication);
   };
 
@@ -76,7 +75,14 @@ function ApplicationDetails() {
   };
 
   const stages = ["Saved", "Applied", "Interviewing", "Offer"];
-
+  if (loading)
+    return (
+      <div className="bg-[#080b14] w-screen flex flex-col items-center justify-center gap-4 ">
+        <div className="bg-[#0b0f1a] w-[80%] h-60 my-4"></div>
+        <div className="bg-[#0b0f1a] w-[80%] h-60 my-4"></div>
+        <div className="bg-[#0b0f1a] w-[80%] h-60 my-4"></div>
+      </div>
+    );
   if (!application) return null;
   const currentIndex = stages.indexOf(application?.status);
 
@@ -92,7 +98,7 @@ function ApplicationDetails() {
         </Link>
       </div>
 
-      {/************ HERO **************/}
+      {/* HERO */}
 
       <section className="mt-7 overflow-hidden rounded-3xl border border-white/[0.07] bg-[#0b0f1a]">
         <div className="h-px w-full bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
@@ -153,7 +159,7 @@ function ApplicationDetails() {
               </div>
             </div>
 
-            {/************ Actions **************/}
+            {/* Actions */}
             <div className="flex shrink-0 items-center gap-2">
               <button
                 onClick={(e) => {
@@ -179,7 +185,7 @@ function ApplicationDetails() {
 
               <button
                 onClick={() => {
-                  (removeApplication(application._id), navigate("/dashboard"));
+                  (removeApplication(application._id), navigate("/"));
                 }}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/10 bg-red-500/[0.03] text-slate-500 transition hover:bg-red-500/10 hover:text-red-400"
               >
@@ -191,10 +197,10 @@ function ApplicationDetails() {
       </section>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-        {/************ LEFT SIDE**************/}
+        {/* LEFT SIDE*/}
 
         <div className="space-y-6">
-          {/************ Job overview **************/}
+          {/* Job overview */}
           <section className="rounded-2xl border border-white/[0.07] bg-[#0b0f1a]">
             <SectionHeader
               icon={BriefcaseBusiness}
@@ -247,7 +253,7 @@ function ApplicationDetails() {
             </div>
           </section>
 
-          {/************ Interview **************/}
+          {/* Interview */}
           <section className="rounded-2xl border border-white/[0.07] bg-[#0b0f1a]">
             <SectionHeader
               icon={CalendarDays}
@@ -306,7 +312,7 @@ function ApplicationDetails() {
             )}
           </section>
 
-          {/************ Notes **************/}
+          {/* Notes */}
           <section className="rounded-2xl border border-white/[0.07] bg-[#0b0f1a]">
             <SectionHeader
               icon={FileText}
@@ -325,10 +331,10 @@ function ApplicationDetails() {
           </section>
         </div>
 
-        {/************ RIGHT SIDE **************/}
+        {/* RIGHT SIDE */}
 
         <aside className="space-y-6">
-          {/************ Current status **************/}
+          {/* Current status */}
           <section className="rounded-2xl border border-white/[0.07] bg-[#0b0f1a] p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
               Current status
@@ -364,7 +370,7 @@ function ApplicationDetails() {
             </p>
           </section>
 
-          {/************ Contact **************/}
+          {/* Contact */}
           <section className="rounded-2xl border border-white/[0.07] bg-[#0b0f1a] p-5">
             <SectionHeader
               icon={User}
@@ -412,7 +418,7 @@ function ApplicationDetails() {
             )}
           </section>
 
-          {/************ Quick actions **************/}
+          {/* Quick actions */}
           <section className="rounded-2xl border border-white/[0.07] bg-[#0b0f1a] p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
               Quick actions

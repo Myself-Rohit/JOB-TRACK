@@ -21,7 +21,7 @@ const useSignup = () => {
       if (res.data) {
         localStorage.setItem("currentUser", JSON.stringify(res.data));
         toast.success("Signin successful!");
-        navigate("/dashboard");
+        navigate("/");
         setAuthUser(res.data);
       }
     } catch (err) {

@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import useGetProfile from "../hooks/useGetProfile";
 import useEditProfile from "../hooks/useEditProfile";
 import { useNavigate } from "react-router";
+import useDeleteProfile from "../hooks/useDeleteProfile";
 
 function Profile() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const { profile, getProfileInfo, loading } = useGetProfile();
   const { editProfile, setProfileInfo } = useEditProfile();
+  const { deleteProfile } = useDeleteProfile();
   const [formData, setFormData] = useState({
     profileName: "",
     profileEmail: "",
@@ -39,18 +41,23 @@ function Profile() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("name:", name);
-    console.log("value:", value);
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSave = () => {
-    editProfile(formData);
-    setProfileInfo(formData);
-    setIsEditing(!isEditing);
+  const handleSave = async () => {
+    try {
+      const result = await editProfile(formData);
+
+      if (result) {
+        setProfileInfo(result.data || formData);
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+    }
   };
 
   if (!profile) return null;
@@ -376,6 +383,7 @@ function Profile() {
               </div>
 
               <button
+                onClick={() => deleteProfile()}
                 type="button"
                 className="flex w-fit items-center gap-2 rounded-xl border border-red-500/10 bg-red-500/[0.03] px-4 py-2.5 text-sm text-red-400 transition hover:bg-red-500/10"
               >

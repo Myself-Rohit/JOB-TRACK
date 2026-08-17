@@ -12,11 +12,11 @@ const useRemoveApplication = () => {
         { withCredentials: true },
       );
       if (res.data) {
-        toast.success("Auction item deleted");
+        toast.success("Application deleted.");
       }
       return true;
     } catch (err) {
-      toast.error(err.message || "Something went wrong");
+      toast.error(err.message || "Something went wrong, Try again!");
       return false;
     } finally {
       setLoading(false);

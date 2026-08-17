@@ -103,23 +103,27 @@ export const updateApplicationById = async (req, res) => {
 
     if (String(req.user._id) != String(application.user))
       throw Error("You are not allowed to update this application.");
-    const updatedApplication = await Application.findByIdAndUpdate(id, {
-      company,
-      role,
-      location,
-      status,
-      appliedDate,
-      jobUrl,
-      isFavorite,
-      minSalary,
-      maxSalary,
-      currency,
-      contactName,
-      contactEmail,
-      notes,
-      interview: { ...interview },
-      color,
-    });
+    const updatedApplication = await Application.findByIdAndUpdate(
+      id,
+      {
+        company,
+        role,
+        location,
+        status,
+        appliedDate,
+        jobUrl,
+        isFavorite,
+        minSalary,
+        maxSalary,
+        currency,
+        contactName,
+        contactEmail,
+        notes,
+        interview: { ...interview },
+        color,
+      },
+      { new: true },
+    );
     if (updatedApplication) await updatedApplication.save();
     res
       .status(200)

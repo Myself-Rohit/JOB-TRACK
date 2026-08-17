@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const useGetAllApplications = () => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const useGetAllApplications = () => {
         setApplications(res.data?.data);
       }
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message || "");
     } finally {
       setLoading(false);
     }

@@ -9,12 +9,13 @@ import {
   Plus,
   ChevronRight,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useGetAllApplications from "../hooks/useGetAllApplications.js";
 import { useEffect, useState } from "react";
 
 function Dashboard() {
   const { loading, applications, setApplications } = useGetAllApplications();
+  const navigate = useNavigate();
   if (loading)
     return (
       <div className="bg-[#080b14] w-screen flex flex-col items-center justify-center gap-4 ">
@@ -200,8 +201,9 @@ function Dashboard() {
           <div className="divide-y divide-white/[0.05]">
             {recentApplications.map((application) => (
               <div
+                onClick={() => navigate(`/details/${application._id}`)}
                 key={`${application.company}-${application.role}`}
-                className="flex items-center gap-4 px-5 py-4 transition hover:bg-white/[0.02]"
+                className="flex items-center gap-4 px-5 py-4 transition hover:bg-white/[0.02] cursor-pointer"
               >
                 {/* Company icon */}
                 <div

@@ -90,7 +90,7 @@ function EditApplication() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     updateApplication(formData);
-    toast.success("Updated data!");
+    toast.success("Application data updated.");
   };
 
   return (

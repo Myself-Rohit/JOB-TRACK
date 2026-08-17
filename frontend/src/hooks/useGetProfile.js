@@ -13,7 +13,6 @@ const useGetProfile = () => {
         { withCredentials: true },
       );
       if (res.data) {
-        console.log("Profile:", res.data);
         setProfile(res.data?.data);
       }
     } catch (error) {

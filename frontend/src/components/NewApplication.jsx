@@ -380,6 +380,7 @@ function NewApplication() {
                     <option value="Managerial">Managerial</option>
                     <option value="Behavioral">Behavioral</option>
                     <option value="Final">Final</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
 

@@ -61,7 +61,7 @@ const applicationSchema = mongoose.Schema(
       date: { type: Date },
       type: {
         type: String,
-        enum: ["Phone Screen", "Technical", "HR", "Manager", "Final", "Other"],
+        enum: ["Technical", "HR", "Managerial", "Behavioral", "Final", "Other"],
       },
       scheduled: {
         type: Boolean,

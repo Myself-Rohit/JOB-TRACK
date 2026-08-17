@@ -15,8 +15,9 @@ export const getProfileInfo = async (req, res) => {
 
 export const updateProfileInfo = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user?._id;
     if (!userId) throw new Error("User Unauthorized!");
+
     const {
       profileName,
       profileEmail,
@@ -34,20 +35,24 @@ export const updateProfileInfo = async (req, res) => {
 
     const { userName, email, password } = userProfile._doc;
 
-    const updatedProfile = await User.findByIdAndUpdate(userId, {
-      userName,
-      email,
-      password,
-      profileName,
-      profileEmail,
-      location,
-      bio,
-      role,
-      phone,
-      website,
-      github,
-      linkedin,
-    });
+    const updatedProfile = await User.findByIdAndUpdate(
+      userId,
+      {
+        userName,
+        email,
+        password,
+        profileName,
+        profileEmail,
+        location,
+        bio,
+        role,
+        phone,
+        website,
+        github,
+        linkedin,
+      },
+      { new: true },
+    );
 
     await updatedProfile.save();
     res
@@ -55,5 +60,16 @@ export const updateProfileInfo = async (req, res) => {
       .json({ message: "Profile Updated Successfully!", data: updatedProfile });
   } catch (error) {
     res.status(400).json({ error: error.message || "Something went wrong" });
+  }
+};
+
+export const deleteProfile = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    if (!userId) throw new Error("Unauthorized user");
+    await User.findByIdAndDelete(userId);
+    res.status(200).json({ message: "Profile deleted successfully!" });
+  } catch (error) {
+    res.status(400).json({ message: error.message || "Something went wrong!" });
   }
 };
