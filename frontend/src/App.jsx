@@ -10,6 +10,7 @@ import NewApplication from "./components/NewApplication.jsx";
 import { ToastContainer } from "react-toastify";
 import Applications from "./components/Applications.jsx";
 import ApplicationDetails from "./components/ApplicationDetail.jsx";
+import Profile from "./components/Profile.jsx";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={authUser ? <Mainlayout /> : <SignIn />}>
           <Route path="/" element={<NewApplication />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/applications/new" element={<NewApplication />} />
           <Route path="/details/:id" element={<ApplicationDetails />} />

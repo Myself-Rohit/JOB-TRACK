@@ -1,3 +1,4 @@
+import { MinKey } from "mongodb";
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
@@ -14,6 +15,33 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    profileName: {
+      type: String,
+    },
+    profileEmail: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    role: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    website: {
+      type: String,
+    },
+    github: {
+      type: String,
+    },
+    linkedin: {
+      type: String,
     },
   },
   { timestamps: true },
