@@ -1,22 +1,60 @@
 import { Camera, Mail, MapPin, Pencil, Save, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import useGetProfile from "../hooks/useGetProfile";
+import useEditProfile from "../hooks/useEditProfile";
+import { useNavigate } from "react-router";
 
 function Profile() {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const { profile, getProfileInfo, loading } = useGetProfile();
+  const { editProfile, setProfileInfo } = useEditProfile();
+  const [formData, setFormData] = useState({
+    profileName: "",
+    profileEmail: "",
+    location: "",
+    bio: "",
+    role: "",
+    phone: "",
+    website: "",
+    github: "",
+    linkedin: "",
+  });
 
-  const { profile, loading } = useGetProfile();
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        profileName: profile.profileName || profile.userName || "",
+        profileEmail: profile.profileEmail || profile.email || "",
+        location: profile.location || "",
+        bio: profile.bio || "",
+        role: profile.role || "",
+        phone: profile.phone || "",
+        website: profile.website || "",
+        github: profile.github || "",
+        linkedin: profile.linkedin || "",
+      });
+    }
+  }, [profile]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setProfile((prev) => ({
+    console.log("name:", name);
+    console.log("value:", value);
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  const handleSave = () => {
+    editProfile(formData);
+    setProfileInfo(formData);
+    setIsEditing(!isEditing);
+  };
+
   if (!profile) return null;
+
   return (
     <div className="min-h-screen bg-[#080b14] px-4 py-6 text-white sm:px-6 lg:px-10 grow">
       <div className="mx-auto max-w-5xl">
@@ -39,7 +77,7 @@ function Profile() {
 
                 <div className="relative">
                   <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-xl font-bold text-white shadow-lg shadow-indigo-950/30">
-                    {(profile.ProfileName || profile.userName)
+                    {(formData?.profileName || profile?.userName)
                       .split(" ")
                       .map((word) => word[0])
                       .join("")
@@ -52,21 +90,23 @@ function Profile() {
 
                 <div>
                   <h2 className="text-xl font-semibold text-white">
-                    {profile.profileName || profile.userName}
+                    {formData?.profileName || profile?.userName}
                   </h2>
 
-                  <p className="mt-1 text-sm text-slate-500">{profile.role}</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    {formData?.role}
+                  </p>
 
                   <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-600">
                     <span className="flex items-center gap-1.5">
                       <Mail className="h-3.5 w-3.5" />
-                      {profile.email}
+                      {formData?.profileEmail || profile.email}
                     </span>
 
-                    {profile.location && (
+                    {formData?.location && (
                       <span className="flex items-center gap-1.5">
                         <MapPin className="h-3.5 w-3.5" />
-                        {profile.location}
+                        {formData?.location}
                       </span>
                     )}
                   </div>
@@ -78,13 +118,16 @@ function Profile() {
               <button
                 type="button"
                 onClick={() => setIsEditing(!isEditing)}
-                className="flex w-fit items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-white/[0.05] hover:text-white"
+                className="flex w-fit items-center shrink-0 gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-white/[0.05] hover:text-white"
               >
                 {isEditing ? (
-                  <>
+                  <div
+                    onClick={() => handleSave()}
+                    className="flex gap-1 items-center"
+                  >
                     <Save className="h-4 w-4" />
                     Save changes
-                  </>
+                  </div>
                 ) : (
                   <>
                     <Pencil className="h-4 w-4" />
@@ -117,14 +160,14 @@ function Profile() {
                 {isEditing ? (
                   <input
                     type="text"
-                    name="name"
-                    value={profile.profileName || profile.userName}
+                    name="profileName"
+                    value={formData?.profileName || profile?.userName}
                     onChange={handleChange}
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 outline-none transition focus:border-indigo-500"
                   />
                 ) : (
                   <p className="mt-2 ml-7 text-sm text-slate-300 text-left ">
-                    {profile.profileName || profile.userName}
+                    {formData?.profileName || profile?.userName}
                   </p>
                 )}
               </div>
@@ -137,14 +180,14 @@ function Profile() {
                 {isEditing ? (
                   <input
                     type="email"
-                    name="email"
-                    value={profile.profileEmail || profile.email}
+                    name="profileEmail"
+                    value={formData?.profileEmail || profile?.email}
                     onChange={handleChange}
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 outline-none transition focus:border-indigo-500 "
                   />
                 ) : (
                   <p className="mt-2 ml-7 text-sm text-slate-300 text-left ">
-                    {profile.profileEmail || profile.email}
+                    {formData?.profileEmail || formData?.email}
                   </p>
                 )}
               </div>
@@ -158,13 +201,13 @@ function Profile() {
                   <input
                     type="text"
                     name="role"
-                    value={profile.role}
+                    value={formData?.role}
                     onChange={handleChange}
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 outline-none transition focus:border-indigo-500"
                   />
                 ) : (
                   <p className="mt-2 ml-7 text-sm text-slate-300 text-left ">
-                    {profile.role || "Not provided"}
+                    {formData?.role || "Not provided"}
                   </p>
                 )}
               </div>
@@ -178,13 +221,13 @@ function Profile() {
                   <input
                     type="text"
                     name="location"
-                    value={profile.location}
+                    value={formData?.location}
                     onChange={handleChange}
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 outline-none transition focus:border-indigo-500"
                   />
                 ) : (
                   <p className="mt-2 ml-7 text-sm text-slate-300 text-left ">
-                    {profile.location || "Not provided"}
+                    {formData?.location || "Not provided"}
                   </p>
                 )}
               </div>
@@ -198,14 +241,14 @@ function Profile() {
                   <input
                     type="text"
                     name="phone"
-                    value={profile.phone}
+                    value={formData?.phone}
                     onChange={handleChange}
                     placeholder="Enter phone number"
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 placeholder:text-slate-700 outline-none transition focus:border-indigo-500"
                   />
                 ) : (
                   <p className="mt-2 ml-7 text-sm text-slate-300 text-left ">
-                    {profile.phone || "Not provided"}
+                    {formData?.phone || "Not provided"}
                   </p>
                 )}
               </div>
@@ -219,14 +262,14 @@ function Profile() {
                   <input
                     type="text"
                     name="website"
-                    value={profile.website}
+                    value={formData?.website}
                     onChange={handleChange}
                     placeholder="https://example.com"
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 placeholder:text-slate-700 outline-none transition focus:border-indigo-500"
                   />
                 ) : (
                   <p className="mt-2 ml-7 text-sm text-slate-300 text-left ">
-                    {profile.website || "Not provided"}
+                    {formData?.website || "Not provided"}
                   </p>
                 )}
               </div>
@@ -247,7 +290,7 @@ function Profile() {
             {isEditing ? (
               <textarea
                 name="bio"
-                value={profile.bio}
+                value={formData?.bio}
                 onChange={handleChange}
                 rows={4}
                 placeholder="Tell us a little about yourself..."
@@ -255,7 +298,7 @@ function Profile() {
               />
             ) : (
               <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-500">
-                {profile.bio || "No bio added yet."}
+                {formData?.bio || "No bio added yet."}
               </p>
             )}
           </section>
@@ -283,14 +326,14 @@ function Profile() {
                   <input
                     type="text"
                     name="github"
-                    value={profile.github}
+                    value={formData?.github}
                     onChange={handleChange}
                     placeholder="https://github.com/username"
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 placeholder:text-slate-700 outline-none transition focus:border-indigo-500"
                   />
                 ) : (
                   <p className="mt-2 text-sm text-slate-400 text-left">
-                    {profile.github || "Not provided"}
+                    {formData?.github || "Not provided"}
                   </p>
                 )}
               </div>
@@ -304,14 +347,14 @@ function Profile() {
                   <input
                     type="text"
                     name="linkedin"
-                    value={profile.linkedin}
+                    value={formData?.linkedin}
                     onChange={handleChange}
                     placeholder="https://linkedin.com/in/username"
                     className="mt-2 w-full border-b border-white/[0.08] bg-transparent py-2 text-sm text-slate-200 placeholder:text-slate-700 outline-none transition focus:border-indigo-500"
                   />
                 ) : (
                   <p className="mt-2 text-sm text-slate-400 text-left">
-                    {profile.linkedin || "Not provided"}
+                    {formData?.linkedin || "Not provided"}
                   </p>
                 )}
               </div>

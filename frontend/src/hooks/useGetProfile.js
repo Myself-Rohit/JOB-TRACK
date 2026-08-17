@@ -25,6 +25,6 @@ const useGetProfile = () => {
   useEffect(() => {
     getProfileInfo();
   }, []);
-  return { loading, profile };
+  return { loading, profile, getProfileInfo };
 };
 export default useGetProfile;

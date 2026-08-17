@@ -40,7 +40,7 @@ function Sidebar() {
 
       {/* New Application */}
       <Link
-        to="/applications/new"
+        to="/new"
         className="mt-8 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-3 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-950/40 transition hover:brightness-110"
       >
         <Plus className="h-4 w-4 shrink-0" />

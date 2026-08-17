@@ -49,9 +49,10 @@ export const updateProfileInfo = async (req, res) => {
       linkedin,
     });
 
+    await updatedProfile.save();
     res
       .status(200)
-      .json({ message: "Profile Updated Successfully!", data: updateProfile });
+      .json({ message: "Profile Updated Successfully!", data: updatedProfile });
   } catch (error) {
     res.status(400).json({ error: error.message || "Something went wrong" });
   }

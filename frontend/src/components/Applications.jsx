@@ -140,7 +140,7 @@ function Applications() {
             </div>
 
             <Link
-              to="/applications/new"
+              to="/new"
               className="flex w-fit items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-3 text-sm font-semibold shadow-lg shadow-indigo-950/30 transition hover:brightness-110"
             >
               <Plus className="h-4 w-4" />
