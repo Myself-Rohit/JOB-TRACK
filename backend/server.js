@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 import cookieParser from "cookie-parser";
 import connectToDB from "./config/connectToDB.js";
 import authRoute from "./routes/auth.routes.js";
@@ -19,6 +20,7 @@ app.use(
   }),
 );
 const port = process.env.PORT || 3001;
+const __dirname = path.resolve();
 connectToDB()
   .then(() => {
     console.log("Connected to MonngoDB");
@@ -30,3 +32,8 @@ connectToDB()
 app.use("/api/auth", authRoute);
 app.use("/api/application", applicationRoute);
 app.use("/api/profile", prolfileRoute);
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
