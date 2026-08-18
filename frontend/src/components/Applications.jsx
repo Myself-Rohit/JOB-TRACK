@@ -16,10 +16,10 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import useGetAllApplications from "../hooks/useGetAllApplications";
+import useGetAllApplications from "../hooks/useGetAllApplications.js";
 import { useEffect } from "react";
-import useUpdateApplication from "../hooks/useUpdateApplication";
-import useRemoveApplication from "../hooks/useRemoveApplication";
+import useUpdateApplication from "../hooks/useUpdateApplication.js";
+import useRemoveApplication from "../hooks/useRemoveApplication.js";
 const statusStyles = {
   Saved: "bg-cyan-500/10 text-cyan-300 border-cyan-500/20",
 
@@ -43,7 +43,6 @@ const companyColors = [
 
 function Applications() {
   const [search, setSearch] = useState("");
-  // const [selectedStatus, setSelectedStatus] = useState("All");
   const [filteredData, setFilteredData] = useState([]);
   const [isFavorite, setisFavorite] = useState(false);
   const { loding, applications, setApplications } = useGetAllApplications();

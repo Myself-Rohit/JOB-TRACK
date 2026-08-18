@@ -1,9 +1,9 @@
 import { Camera, Mail, MapPin, Pencil, Save, User } from "lucide-react";
 import { useEffect, useState } from "react";
-import useGetProfile from "../hooks/useGetProfile";
-import useEditProfile from "../hooks/useEditProfile";
+import useGetProfile from "../hooks/useGetProfile.js";
+import useEditProfile from "../hooks/useEditProfile.js";
 import { useNavigate } from "react-router";
-import useDeleteProfile from "../hooks/useDeleteProfile";
+import useDeleteProfile from "../hooks/useDeleteProfile.js";
 
 function Profile() {
   const navigate = useNavigate();

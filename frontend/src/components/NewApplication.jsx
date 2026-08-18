@@ -11,7 +11,7 @@ import {
   Video,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import useCreateApplication from "../hooks/useCreateApplication";
+import useCreateApplication from "../hooks/useCreateApplication.js";
 
 function NewApplication() {
   const navigate = useNavigate();

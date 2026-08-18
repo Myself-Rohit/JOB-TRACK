@@ -12,8 +12,8 @@ import {
 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useUpdateApplication from "../hooks/useUpdateApplication.js";
-import useGetAllApplications from "../hooks/useGetAllApplications";
-import useGetApplication from "../hooks/useGetApplication";
+import useGetAllApplications from "../hooks/useGetAllApplications.js";
+import useGetApplication from "../hooks/useGetApplication.js";
 import { toast } from "react-toastify";
 
 function EditApplication() {
