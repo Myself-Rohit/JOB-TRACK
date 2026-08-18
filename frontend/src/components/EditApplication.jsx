@@ -63,11 +63,12 @@ function EditApplication() {
       type: "Technical",
       notes: "",
     },
-    color: "from-orange-500 to-yellow-500",
+    color: "",
   });
   useEffect(() => {
     if (application) {
       setFormData({ ...application });
+      setIsActive(colors.indexOf(application.color));
     }
   }, [application]);
   const handleChange = (e) => {
@@ -107,11 +108,11 @@ function EditApplication() {
 
           <div>
             <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Track a new application
+              Edit Your application
             </h1>
 
             <p className="mt-2 text-slate-400 text-left">
-              Add a job application to keep track of your progress.
+              update a job application to keep track of your progress.
             </p>
           </div>
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
@@ -456,6 +457,7 @@ function EditApplication() {
                 <input
                   type="checkbox"
                   name="isFavorite"
+                  checked={formData.isFavorite}
                   value={formData.isFavorite}
                   onChange={(e) => {
                     setFormData((prev) => ({
